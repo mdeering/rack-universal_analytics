@@ -79,7 +79,7 @@ describe Rack::UniversalAnalytics do
         end
 
         it 'should augment the response body' do
-          expect(last_response.body).to match(account_id)
+          expect(last_response.body).to match(tracker_id)
         end
 
       end
