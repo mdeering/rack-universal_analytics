@@ -1,7 +1,7 @@
+# Encoding: utf-8
+puts 'Version file'
 module Rack
-  module Universal
-    module Analytics
-      VERSION = "0.0.1"
-    end
+  module UniversalAnalytics
+    VERSION = "0.0.1"
   end
 end
