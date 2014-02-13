@@ -2,6 +2,6 @@
 puts 'Version file'
 module Rack
   module UniversalAnalytics
-    VERSION = "0.0.1"
+    VERSION = "0.0.1.alpha"
   end
 end
