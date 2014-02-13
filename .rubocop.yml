@@ -1,0 +1,8 @@
+AlignHash:
+  EnforcedHashRocketStyle: table
+
+EmptyLinesAroundBody:
+  Enabled: false
+
+LineLength:
+  Max: 100

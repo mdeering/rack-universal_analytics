@@ -5,7 +5,7 @@ require 'rack/universal_analytics/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'rack-universal_analytics'
-  spec.version       = Rack::UniversalAnalytics::VERSION
+  spec.version       = Rack::UniversalAnalytics::Version
   spec.authors       = ['Michael Deering']
   spec.email         = ['mdeering@mdeering.com']
   spec.summary       = %q{Rack middleware for inserting Google Universal Analytics}
@@ -18,7 +18,13 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.add_runtime_dependency 'nokogiri'
+
   spec.add_development_dependency 'bundler', '~> 1.5'
   spec.add_development_dependency 'rack-test'
   spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'vcr'
+  spec.add_development_dependency 'webmock'
+
 end

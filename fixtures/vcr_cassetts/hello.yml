@@ -1,0 +1,187 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.december.com/html/tutor/hello.html
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 13 Feb 2014 08:33:15 GMT
+      Server:
+      - Apache
+      Last-Modified:
+      - Mon, 05 Aug 2013 22:10:04 GMT
+      Etag:
+      - ! '"3154-4e33a92012700"'
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '12628'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
+        \"http://www.w3.org/TR/html4/loose.dtd\"> \n<html><head><title>Creating Web
+        Documents: Hello World</title>\n<meta http-equiv=\"Content-Type\" content=\"text/html;
+        charset=iso-8859-1\">\n<link rel=\"stylesheet\" href=\"http://www.december.com/december.css\"
+        Type=\"text/css\">\n<link rel=\"SHORTCUT ICON\" href=\"http://www.december.com/favicon.ico\">\n</head><body><div
+        class=\"nav\"><b>\n<a href=\"http://www.december.com/\" title=\"December Communications,
+        Inc.\">december.com</a> / <a href=\"http://www.december.com/html/\">html</a>
+        | <a href=\"http://www.december.com/html/tutor/\">Tutor</a> &middot; <a href=\"http://www.december.com/html/demo/\">Demo</a>
+        &middot; <a href=\"http://www.december.com/html/spec/\">Specs</a> &middot;
+        <a href=\"http://www.december.com/html/tech/\">Techs</a>\n &middot; <a href=\"http://www.december.com/html/books.html\">Books</a>
+        | <a href=\"http://www.december.com/works/central/search.html\" title=\"Search
+        december.com or the Web\">search</a></b></div><table border=\"0\" cellpadding=\"0\"
+        cellspacing=\"0\"><tr><td valign=\"top\"><div class=\"sidebar\"><script type=\"text/javascript\"><!--\ngoogle_ad_client
+        = \"pub-9218689356960748\";\n//Sidebar\ngoogle_ad_slot = \"7599091500\";\ngoogle_ad_width
+        = 160;\ngoogle_ad_height = 600;\n//--></script>\n<script type=\"text/javascript\"\nsrc=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\">\n</script>\n</div><td
+        valign=\"top\" rowspan=\"2\"><div class=\"content\">\n<div class=\"calloutlinkunit\">\n<script
+        type=\"text/javascript\"><!--\ngoogle_ad_client = \"pub-9218689356960748\";\n//Callout
+        Linkunit\ngoogle_ad_slot = \"1582555999\";\ngoogle_ad_width = 180;\ngoogle_ad_height
+        = 90;\n//--></script>\n<script type=\"text/javascript\"\nsrc=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\">\n</script>\n</div>\n
+        \ <A href=\"webdoc.html\">Creating Web Documents</A> \n  <H1>\n   Hello, World\n
+        \ </H1>\n  <H2>\n   Concepts\n  </H2>\n  <H3>\n   How a Web document works\n
+        \ </H3>\n  <P>\n   A public Web document is part of <A href=\n   \"../../web/text/webwhat.html\">the
+        World Wide Web</A> and operates\n   according the <A href=\"../../web/text/csmodel.html\">\n
+        \  client-server</A> model.\n  </P>\n  <OL>\n   <LI>\n    A Web page is a
+        file that resides on a server.\n   </LI>\n   <LI>\n    People use client software
+        (a Web browser) to access a Web page.\n   </LI>\n   <LI>\n    Web sites can
+        contain massive numbers of pages of <A href= \n    \"../../web/text/hyper.html\">hypertext
+        and multimedia</A>.\n   </LI>\n   <LI>\n    A Web site truly represents a
+        new kind of communication with unique\n    <A href=\"../../web/develop/character.html\">characteristics</A>
+        and\n    <A href=\"../../web/develop/qualities.html\">qualities</A>.\n   </LI>\n
+        \ </OL>\n  <H3>\n   How a Web Document is Composed\n  </H3>\n<P>\nYou create
+        a file and put special character sequences called \n<EM>HTML elements</EM>\ninto
+        your file.\nThese elements identify the structural parts of your document.\nWhen
+        a Web browser displays the file, it will display your file's content,\nbut
+        not the characters that make up the structure.\n<P>\n<H4>A very simple HTML
+        document</H4>\nHere is an example:\n<P>\n<TABLE class=\"data\" align=\"center\">\n<TR>\n\t<TH
+        class=\"guide1\">\n\tMake a file called \"hi.html\" containing this\n\t</TH>\n\t<TH
+        class=\"guide1\">\n\tUse your a Web browser to open the file \"hi.html,\"
+        \n\tand it will look something like this\n\t</TH>\n</TR>\n<TR>\n<TD class=\"code\"
+        width=\"50%\">\n&lt;!DOCTYPE html PUBLIC \"-//IETF//DTD HTML 2.0//EN\"&gt;<BR>\n&lt;HTML&gt;<BR>\n&nbsp;&nbsp;&nbsp;&lt;HEAD&gt;<BR>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;<BR>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A
+        Small Hello <BR>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TITLE&gt;<BR>\n&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;<BR>\n&lt;BODY&gt;<BR>\n&nbsp;&nbsp;&nbsp;&lt;H1&gt;Hi&lt;/H1&gt;<BR>\n&nbsp;&nbsp;&nbsp;&lt;P&gt;This
+        is very minimal \"hello world\" HTML document.&lt;/P&gt; <BR>\n&lt;/BODY&gt;<BR>\n&lt;/HTML&gt;<BR>\n</TD><TD
+        class=\"guide\">\n<H1>Hi</H1>\n<P>This is a very minimal \"hello world\" HTML
+        document.</P>\n</TD></TR></TABLE>\n\n<P>\nOnly \nthe elements that you place
+        in the BODY element (that is, between\n&lt;BODY&gt;\nand \n&lt;/BODY&gt; )\never
+        get displayed in a Web browser's window.\n<P>\nIn this example, only the contents
+        of the H1 element \n(between \n\t&lt;H1&gt;\nand \n\t&lt;/H1&gt;\n)\nand \nthe
+        P element \n(between \n\t&lt;P&gt;\nand \n\t&lt;/P&gt;\n)\nare displayed.\n<P>\nThe
+        phrase you put between \n&lt;TITLE&gt;\nand \n&lt;/TITLE&gt;\nwill be displayed
+        in the browser's title bar (for browsers\nsuch as Netscape Navigator or Internet
+        Explorer; other browsers\nmight display the title differently).\n\n<H4>A \"Hello,
+        World\" HTML document</H4>\n  <P>\n   Here is another fairly simple \n\t\"<A
+        href=\"../demo/hello.html\">Hello World</A>\"\n   document.\n  </P>\n  <P>\n
+        \  You can click on the link and then\nuse the \"View / Source\" option on
+        your browser to look at\n   how it is made.\n  </P>\n<P>\n\nThe idea is that
+        you put in the HTML elements into an HTML file \n(such as \"hello.html\"),
+        and \nthen you can view that file in a Web browser to see your contents\ndisplayed.
+        \  You won't see the HTML structure elements themselves\n(HTML, HEAD, TITLE,
+        BODY, H1, or P).\n<P>\n\n<H4>Parts of an HTML document</H4>\n  <UL>\n   <LI>\n
+        \   A Web document consists of HTML <EM>elements</EM> and <EM>\n    entities</EM>.\n
+        \  </LI>\n   <LI>\n    The HTML elements identify components of the document.
+        For example,\n    the body element (BODY), the paragraph element (P) element,
+        and the\n    anchor element (A).\n   </LI>\n   <LI>\n    The HTML elements
+        are not intended to define how a document looks,\n    only how it is structured.\n
+        \  </LI>\n   <LI>\n    Some elements have a <EM>start tag</EM> (for example
+        &lt;BODY&gt;) and\n    an an <EM>end tag</EM> (for example &lt;/BODY&gt;).
+        \ For\n    some elements, the end tag is optional.\n   </LI>\n   <LI>\n    The
+        HTML entities are special characters in the document. For\n    example, you
+        can use <A href=\"../spec/latin1.html\">latin codes</A>\n    or <A href=\"../spec/codes.html\">numeric
+        codes</A>.\n   </LI>\n   <LI>\n    Some HTML elements have optional <EM>attributes</EM>
+        to further\n    specify the function of the element. For example, the A (anchor)\n
+        \   element has an attribute \"href\" to identify the \n\t<A Href=\"../spec/url.html\">URL</A>
+        where the\n    anchor \"points.\"  For example, this A element has the href
+        attribute\n\tset to the URL of the HTML Station:\n\t<BLOCKQUOTE class=\"code\">\n&lt;A
+        href=\"http://www.december.com/html/\"&gt;This points to the HTML Station&lt;/A&gt;\n\t</BLOCKQUOTE>\n
+        \  </LI>\n   <LI>\n    The spaces or line breaks in an HTML file don't affect
+        how it will\n    look in a Web browser. You can therefore use any kind of
+        spacing or\n    linebreaks in your HTML file that you would like.\n\t</LI>\n\t<LI>\n\tCapitalization
+        or lowercase letters in the element tags also\n\tdon't matter (&lt;BODY&gt;
+        is just as good as \n\t&lt;bOdY&gt;).  However, case does matter in the value
+        of \n\tattributes (an attribute sets some value for the operation \n\tof an
+        element; for example, \n\tin this anchor to the HTML station, the text \"http://www.december.com/html\"
+        is the value of the attribute href.\t  You could actually write out href as
+        Href or HREF, but (for the most part) you need to pay attention\nto the upper
+        or lower case letters of attribute values.\n\t<BLOCKQUOTE class=\"code\">\n&lt;A
+        href=\"http://www.december.com/html/\"&gt;This points to the HTML Station&lt;/A&gt;\n\t</BLOCKQUOTE>\n
+        \  </LI>\n<LI>\n   The top line of the file identifies the version of HTML
+        used in the\n\tHello World document:\n<P>\n  <BLOCKQUOTE class=\"code\">\n
+        \  &lt;!DOCTYPE html PUBLIC \"-//IETF//DTD HTML 2.0//EN\"&gt;\n  </BLOCKQUOTE>\n
+        \ <P>\n   When we talk about <A Href=\"standards.html\">HTML standards</A>,
+        \n   I'll describe more how this line\n   is used.  You will have to use a
+        DOCTYPE statement in every single\n\tHTML file you present for grading in
+        this course.\n  </P>\n  </UL>\n\n  <P>\n   You can see some commonly-used
+        elements of HTML demonstrated in the\n   \"<A href=\"../demo/hello.html\">Hello
+        World</A>\" document:\n  </P>\n  <UL>\n   <LI>\n    <A href=\"../3.2/element/html.html\">HTML</A>\n
+        \  </LI>\n   <LI>\n    <A href=\"../3.2/element/head.html\">HEAD</A>\n   </LI>\n
+        \  <LI>\n    <A href=\"../3.2/element/title.html\">TITLE</A>\n   </LI>\n   <LI>\n
+        \   <A href=\"../3.2/element/body.html\">BODY</A>\n   </LI>\n   <LI>\n    <A
+        href=\"../3.2/element/h1.html\">H1</A>\n   </LI>\n   <LI>\n    <A href=\"../3.2/element/p.html\">P</A>\n
+        \  </LI>\n   <LI>\n    <A href=\"../3.2/element/a.html\">A</A>\n   </LI>\n
+        \  <LI>\n    <A href=\"../3.2/element/hr.html\">HR</A>\n   </LI>\n   <LI>\n
+        \   <A href=\"../3.2/element/address.html\">ADDRESS</A>\n   </LI>\n  </UL>\n
+        \ <P>\n   The \"Hello World\" document \n   also demonstrates the copyright
+        entity (&copy;).\n  </P>\n\n<H4>An anchor for email in an HTML document</H4>\n\n<P>\nOne
+        frequently-used kind of anchor element  (A)\nis a link to an email address.
+        You can\nmake one in your HTML file by adding this line (where userid@domain.com
+        is \nyour email address).\n<P>\n\n<P>\n<TABLE class=\"data\" align=\"center\">\n<TR>\n\t<TH
+        class=\"guide1\">\n\tPut this in the BODY of your HTML file:\n\t</TH>\n\t<TH
+        class=\"guide1\">\n\tDisplayed in a Web browser, \n\tit will look something
+        like this:\n\t</TH>\n</TR>\n<TR>\n<TD class=\"code\" width=\"50%\">\n&lt;A
+        Href=\"mailto:userid@domain.com\"&gt;send me some email&lt;/A&gt;\n</TD><TD
+        class=\"guide\">\n<P>\n<A Href=\"mailto:userid@domain.com\">send me some email</A>\n<P>\n</TD></TR></TABLE>\n\n<H4>More
+        kinds of anchors in HTML document</H4>\n\n  <P>\n   Take a look at <A href=\"../demo/telecom.html\">this
+        example</A> to\n   see how links are made to different kinds of Internet resources\n
+        \  using different kinds of <A href=\"../spec/url.html\">URL's</A> in \n\tthe
+        href attribute of the A element.\n  </P>\n\n  <H2>\n   Exercise: Prepare a
+        Web document\n  </H2>\n  <P>\n   Copy the \"<A href=\"../demo/hello.html\">Hello
+        World</A>\" document to\n   your computer, call it \"hello.html,\" and edit
+        it to suit your\n   interests, name, email address, etc.\n  </P>\n  <P>\n
+        \  Continue to develop your document and include different kinds of\n   hypertext
+        links as, for example, demonstrated in <A href= \n   \"../demo/telecom.html\">this
+        example</A>.\n  </P>\nThe <a href=\"http://www.antsar.info/hello-ru\">Russian
+        translation</a> of this article is provided by <a href=\"http://antsar.info\">Ilyuha</a>.\n</div><tr><td
+        valign=\"bottom\">\n<script type=\"text/javascript\"><!--\ngoogle_ad_client
+        = \"ca-pub-9218689356960748\";\n/* sidebarbottom */\ngoogle_ad_slot = \"4179658223\";\ngoogle_ad_width
+        = 160;\ngoogle_ad_height = 600;\n//-->\n</script>\n<script type=\"text/javascript\"\nsrc=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\">\n</script>\n</table><div
+        class=\"ad\"><script type=\"text/javascript\"><!--\ngoogle_ad_client = \"pub-9218689356960748\";\n/*
+        728x90, created 4/9/10 */\ngoogle_ad_slot = \"2047359408\";\ngoogle_ad_width
+        = 728;\ngoogle_ad_height = 90;\n//-->\n</script>\n<script type=\"text/javascript\"\nsrc=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\">\n</script>\n</div><div
+        class=\"id\"><b><!-- AddThis Button BEGIN -->\n<a class=\"addthis_button\"
+        href=\"http://www.addthis.com/bookmark.php?v=300&amp;pubid=december\"><img
+        src=\"http://www.december.com/images/bookmark.gif\" border=\"0\" vspace=\"0\"
+        align=\"bottom\" alt=\"Save this page to any social bookmarking site!\"></a>
+        \n<a class=\"addthis_button\" href=\"http://www.addthis.com/bookmark.php?v=300&amp;pubid=december\">Share</a>\n<script
+        type=\"text/javascript\" src=\"http://s7.addthis.com/js/300/addthis_widget.js#pubid=december\"></script>\n<!--
+        AddThis Button END -->\n &middot; <img src=\"http://www.december.com/images/searchtiny.gif\"
+        border=\"0\" vspace=\"0\" align=\"bottom\" alt=\"\">\n<a href=\"http://www.december.com/works/central/websearch.html\"
+        title=\"Search the Web, december.com, reference, business, or people\">Search</a>
+        &middot; <img src=\"http://www.december.com/market/images/storetiny.gif\"
+        border=\"0\" vspace=\"0\" align=\"bottom\" alt=\"\">\n<a href=\"http://www.december.com/market/\"
+        title=\"Connect online and support december.com\">Market</a> &middot; <img
+        src=\"http://www.december.com/market/images/startiny.gif\" border=\"0\" vspace=\"0\"
+        align=\"bottom\" alt=\"\">\n<a href=\"http://www.december.com/market/directory.html\"
+        title=\"Connect to goods and services online that can help you accomplish
+        your goals.\">Directory</a></b>\n<br>2013-04-13\n &middot; <a href=\"http://www.december.com/john/\"
+        title=\"Author/Editor of this information\">John December</a> &middot; <a
+        href=\"http://www.december.com/john/email.html\" title=\"Please send corrections
+        and updates\">Contact</a> &middot; <a href=\"http://www.december.com/works/central/terms.html\"
+        title=\"Privacy policy and terms of use\">Terms of Use</a> &copy; <a href=\"http://www.december.com/works/central/\"
+        title=\"Publisher of this information\">December Communications, Inc.</a></div>\n</body></html>\n"
+    http_version: 
+  recorded_at: Thu, 13 Feb 2014 08:33:15 GMT
+recorded_with: VCR 2.8.0
