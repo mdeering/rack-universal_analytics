@@ -5,8 +5,8 @@ describe Rack::UniversalAnalytics do
 
   include Rack::Test::Methods
 
-  let(:tracker_id) { '123456-7' }
-  let(:app)        { Rack::UniversalAnalytics::App.new(dummy, tracker_id: tracker_id) }
+  let(:tracking_id) { '123456-7' }
+  let(:app)        { Rack::UniversalAnalytics::App.new(dummy, tracking_id: tracking_id) }
   let(:body)       { ['<html><head></head><body>Hello!</body></html>'] }
   let(:dummy)      { ->(env) { [200, env, body] } }
 
@@ -19,7 +19,7 @@ describe Rack::UniversalAnalytics do
     let(:env) { { 'Content-Type' => 'text/html' } }
 
     it 'should augment the response body' do
-      expect(last_response.body).to match(tracker_id)
+      expect(last_response.body).to match(tracking_id)
     end
 
   end
@@ -44,12 +44,12 @@ describe Rack::UniversalAnalytics do
 
   end
 
-  context 'with the tracker id set to a lamba' do
+  context 'with the tracking id set to a lamba' do
 
     let(:app) do
       Rack::UniversalAnalytics::App
         .new(dummy,
-             tracker_id: ->(env) { env['universal_analytics.tracker_id'] }
+             tracking_id: ->(env) { env['google_analytics.tracking_id'] }
         )
     end
 
@@ -73,13 +73,13 @@ describe Rack::UniversalAnalytics do
 
         let(:env) do
           {
-            'Content-Type'                   => 'text/html',
-            'universal_analytics.tracker_id' => tracker_id
+            'Content-Type'                 => 'text/html',
+            'google_analytics.tracking_id' => tracking_id
           }
         end
 
         it 'should augment the response body' do
-          expect(last_response.body).to match(tracker_id)
+          expect(last_response.body).to match(tracking_id)
         end
 
       end
