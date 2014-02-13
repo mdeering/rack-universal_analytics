@@ -5,10 +5,17 @@ describe Rack::UniversalAnalytics do
 
   include Rack::Test::Methods
 
-  let(:tracking_id) { '123456-7' }
-  let(:app)        { Rack::UniversalAnalytics::App.new(dummy, tracking_id: tracking_id) }
-  let(:body)       { ['<html><head></head><body>Hello!</body></html>'] }
-  let(:dummy)      { ->(env) { [200, env, body] } }
+  let(:app) do
+    Rack::UniversalAnalytics::App
+      .new(dummy,
+           property_url: property_url,
+           tracking_id:  tracking_id
+      )
+  end
+  let(:body)         { ['<html><head></head><body>Hello!</body></html>'] }
+  let(:dummy)        { ->(env) { [200, env, body] } }
+  let(:property_url) { 'mitremedia.com' }
+  let(:tracking_id)  { 'UA-123456789-2' }
 
   before do
     get '/', {}, env
@@ -46,12 +53,7 @@ describe Rack::UniversalAnalytics do
 
   context 'with the tracking id set to a lamba' do
 
-    let(:app) do
-      Rack::UniversalAnalytics::App
-        .new(dummy,
-             tracking_id: ->(env) { env['google_analytics.tracking_id'] }
-        )
-    end
+    let(:tracking_id) { ->(env) { env['google_analytics.tracking_id'] } }
 
     context 'with the correct environment variable NOT set' do
 
@@ -74,12 +76,14 @@ describe Rack::UniversalAnalytics do
         let(:env) do
           {
             'Content-Type'                 => 'text/html',
-            'google_analytics.tracking_id' => tracking_id
+            'google_analytics.tracking_id' => scoped_tracking_id
           }
         end
 
+        let(:scoped_tracking_id) { 'UA-987654321-7' }
+
         it 'should augment the response body' do
-          expect(last_response.body).to match(tracking_id)
+          expect(last_response.body).to match(scoped_tracking_id)
         end
 
       end

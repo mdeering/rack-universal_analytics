@@ -37,6 +37,14 @@ module Rack
 
       private
 
+      def property_url
+        @property_url ||= if @options[:property_url].respond_to?(:call)
+                            @options[:property_url].call(@env)
+                          else
+                            @options[:property_url]
+                          end
+      end
+
       def tracking_id
         @tracking_id ||= if @options[:tracking_id].respond_to?(:call)
                            @options[:tracking_id].call(@env)
@@ -56,7 +64,7 @@ module Rack
       end
 
       def requirements_met?
-        !!tracking_id
+        !!tracking_id && !!property_url
       end
 
       def script
@@ -67,7 +75,7 @@ module Rack
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', '#{tracking_id}', 'mitremedia.org');
+      ga('create', '#{tracking_id}', '#{property_url}');
       ga('send', 'pageview');
 
     </script>
