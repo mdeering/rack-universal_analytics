@@ -106,7 +106,7 @@ ga('send', 'pageview');
       if @env[:custom_vars]
         @env[:custom_vars].each do |var|
           async_script << "_gaq.push(['_setCustomVar', #{var[:slot]}, #{var[:name]}, #{var[:value]}"
-          async_script << ", #{var[:scope]}" if var.key?(:scope)
+          async_script << ", #{var[:scope]}" if var[:scope]
           async_script << ']);'
         end
       end
