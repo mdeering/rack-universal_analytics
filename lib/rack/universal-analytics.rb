@@ -14,9 +14,9 @@ module Rack
     }.freeze
 
     def initialize(app, options = {})
-#       @app     = app
-#       @options = DEFAULT_OPTIONS.merge(options)
-#       fail "unknown analytics personality!" unless [:none, :async, :universal].include? @options[:personality]
+      @app     = app
+      @options = DEFAULT_OPTIONS.merge(options)
+      fail "unknown analytics personality!" unless [:none, :async, :universal].include? @options[:personality]
     end
 
     def call(env)
@@ -70,6 +70,7 @@ module Rack
 
     def requirements_met?
       return (!!tracking_id && !!property_url) if @options[:personality] == :universal
+      return true if @options[:personality] == :async
     end
 
     def universal
@@ -93,7 +94,7 @@ ga('send', 'pageview');
     end
 
     def async
-      async_script = [%q(<script type=\"text/javascript\">)]
+      async_script = [%q(<script type="text/javascript">)]
       async_script << "var _gaq = _gaq || [];_gaq.push(['_setAccount', #{tracking_id}]);"
 
       if @env[:custom_vars]
