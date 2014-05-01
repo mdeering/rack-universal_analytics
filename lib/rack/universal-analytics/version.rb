@@ -1,7 +1,7 @@
 # Encoding: utf-8
 
 module Rack
-  module UniversalAnalytics
+  class UniversalAnalytics
 
     # Symantic Versioning http://semver.org
     module Version
