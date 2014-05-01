@@ -11,11 +11,15 @@ module Rack
     #   but have it commented out.
     class App
 
-      DEFAULT_OPTIONS = {}.freeze
+      DEFAULT_OPTIONS = {
+        personality: :none,
+        adjusted_bounce_rate_timeouts: []
+      }.freeze
 
       def initialize(app, options = {})
         @app     = app
         @options = DEFAULT_OPTIONS.merge(options)
+        fail "unknown analytics personality!" unless [:none, :async, :universal].include? @options[:personality]
       end
 
       def call(env)
@@ -26,7 +30,7 @@ module Rack
       def _call(env)
         @env = env
         @status, @headers, @body = @app.call(@env)
-        return [@status, @headers, @body] unless html? && requirements_met?
+        return [@status, @headers, @body] unless opted_in? && html? && requirements_met?
         response = Rack::Response.new([], @status, @headers)
 
         @body.each { |fragment| response.write inject(fragment) }
@@ -37,20 +41,24 @@ module Rack
 
       private
 
+      def opted_in?
+        !(@options[:personality] == :none)
+      end
+
       def property_url
-        @property_url ||= if @options[:property_url].respond_to?(:call)
-                            @options[:property_url].call(@env)
-                          else
-                            @options[:property_url]
-                          end
+        if @options[:property_url].respond_to?(:call)
+          @options[:property_url].call(@env)
+        else
+          @options[:property_url]
+        end
       end
 
       def tracking_id
-        @tracking_id ||= if @options[:tracking_id].respond_to?(:call)
-                           @options[:tracking_id].call(@env)
-                         else
-                           @options[:tracking_id]
-                         end
+        if @options[:tracking_id].respond_to?(:call)
+         @options[:tracking_id].call(@env)
+        else
+         @options[:tracking_id]
+        end
       end
 
       def html?
@@ -64,22 +72,67 @@ module Rack
       end
 
       def requirements_met?
-        !!tracking_id && !!property_url
+        return (!!tracking_id && !!property_url) if @options[:personality] == :universal
+      end
+
+      def universal
+        <<-UNIVERSAL
+        <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', '#{tracking_id}', '#{property_url}');
+  ga('send', 'pageview');
+</script>
+        UNIVERSAL
       end
 
       def script
-        <<SCRIPT
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        case @options[:personality]
+        when :async then async
+        when :universal then universal
+        end
+      end
 
-      ga('create', '#{tracking_id}', '#{property_url}');
-      ga('send', 'pageview');
+      def async
+        async_script = [%q(<script type=\"text/javascript\">)]
+        async_script << "var _gaq = _gaq || [];_gaq.push(['_setAccount', #{tracking_id}]);"
 
-    </script>
-SCRIPT
+        if @env[:custom_vars]
+          @env[:custom_vars].each do |var|
+            async_script << "_gaq.push(#{var.write});"
+          end
+        end
+
+        @static_async_components ||= static_async_components
+        async_script << @static_async_components
+        async_script.join
+      end
+
+      # as all of these are based on initialize-time options
+      # we don't need to rebuild this part of the script on a per-response basis
+      def static_async_components
+        static_components = []
+        static_components << "_gaq.push(['_setSiteSpeedSampleRate', #{@options[:site_speed_sample_rate].to_i});" if @options[:site_speed_sample_rate]
+
+        static_components << "_gaq.push(['_setDomainName', #{@options[:domain]}]);" if @options[:domain]
+
+        @options[:adjusted_bounce_rate_timeouts].each do |timeout|
+          static_components << %Q|setTimeout("_gaq.push(['_trackEvent', #{timeout.to_s}_seconds, 'read'])",#{timeout*1000});|
+        end
+
+        static_components << <<-ASYNC
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+        </script>
+        ASYNC
+
+        return static_components.join
       end
 
     end
