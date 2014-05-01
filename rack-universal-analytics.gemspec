@@ -9,11 +9,11 @@ require 'rack/universal-analytics/version'
 Gem::Specification.new do |spec|
   spec.name          = 'rack-universal-analytics'
   spec.version       = Rack::UniversalAnalytics::Version
-  spec.authors       = ['Michael Deering']
-  spec.email         = ['mdeering@mdeering.com']
+  spec.authors       = ['Michael Deering', 'Matt Barnett']
+  spec.email         = ['mdeering@mdeering.com', 'matt@sixtyodd.com']
   spec.summary       = %q(Rack middleware for inserting Google Universal Analytics)
   spec.description   = %q(Rack middleware for inserting Google Universal Analytics and calling its API.)
-  spec.homepage      = 'https://github.com/mdeering/rack-universal-analytics'
+  spec.homepage      = 'https://github.com/mbarnett/rack-universal-analytics'
   spec.license       = 'MIT'
 
   spec.files         = Dir.glob('lib/**/*')
