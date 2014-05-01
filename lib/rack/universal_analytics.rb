@@ -1,4 +1,5 @@
 # Encoding: utf-8
+require 'rack'
 require 'rack/universal-analytics/version'
 
 module Rack
@@ -13,9 +14,9 @@ module Rack
     }.freeze
 
     def initialize(app, options = {})
-      @app     = app
-      @options = DEFAULT_OPTIONS.merge(options)
-      fail "unknown analytics personality!" unless [:none, :async, :universal].include? @options[:personality]
+#       @app     = app
+#       @options = DEFAULT_OPTIONS.merge(options)
+#       fail "unknown analytics personality!" unless [:none, :async, :universal].include? @options[:personality]
     end
 
     def call(env)
