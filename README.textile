@@ -9,7 +9,7 @@ h2. Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'rack-universal_analytics'
+    gem 'rack-universal-analytics'
 
 And then execute:
 
@@ -17,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rack-universal_analytics
+    $ gem install rack-universal-analytics
 
 h2. Usage
 
@@ -25,7 +25,7 @@ TODO: Write usage instructions here
 
 h2. Contributing
 
-# Fork it ( http://github.com/<my-github-username>/rack-universal_analytics/fork )
+# Fork it ( http://github.com/<my-github-username>/rack-universal-analytics/fork )
 # Create your feature branch (`git checkout -b my-new-feature`)
 # Commit your changes (`git commit -am 'Add some feature'`)
 # Push to the branch (`git push origin my-new-feature`)

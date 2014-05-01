@@ -1,5 +1,5 @@
 # Encoding: utf-8
-require 'rack/universal_analytics/version'
+require 'rack/universal-analytics/version'
 
 module Rack
   module UniversalAnalytics

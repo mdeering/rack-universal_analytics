@@ -13,7 +13,7 @@ module Rack
 
       # Returns the current Symantic Version as string.
       #
-      # @return [String] current semantic_version of the rack-universal_analytics gem.
+      # @return [String] current semantic_version of the rack-universal-analytics gem.
       #
       # @example
       #   puts Rack::UniversalAnalytics::Version # => '0.0.1'
