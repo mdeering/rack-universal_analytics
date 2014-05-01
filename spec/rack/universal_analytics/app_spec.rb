@@ -1,4 +1,7 @@
 # Encoding: utf-8
+
+# rubocop:disable UnusedBlockArgument
+
 require 'spec_helper'
 
 describe Rack::UniversalAnalytics::App do
