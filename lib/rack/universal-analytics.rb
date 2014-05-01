@@ -41,6 +41,14 @@ module Rack
     def opted_in?
       !(@options[:personality] == :none)
     end
+    
+    def universal?
+      @options[:personality] == :universal
+    end
+    
+    def async?
+      @options[:personality] == :async
+    end
 
     def property_url
       if @options[:property_url].respond_to?(:call)
@@ -69,8 +77,8 @@ module Rack
     end
 
     def requirements_met?
-      return (!!tracking_id && !!property_url) if @options[:personality] == :universal
-      return true if @options[:personality] == :async
+      return (!!tracking_id && !!property_url) if universal?
+      return true if async?
     end
 
     def universal
@@ -87,10 +95,8 @@ ga('send', 'pageview');
     end
 
     def script
-      case @options[:personality]
-      when :async then async
-      when :universal then universal
-      end
+      return async if async?
+      return universal if universal?
     end
 
     def async
