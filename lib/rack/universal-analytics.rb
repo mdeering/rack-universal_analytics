@@ -81,6 +81,11 @@ module Rack
       return true if async?
     end
 
+    def script
+      return async if async?
+      return universal if universal?
+    end
+
     def universal
       <<-UNIVERSAL
       <script>
@@ -94,20 +99,12 @@ ga('send', 'pageview');
       UNIVERSAL
     end
 
-    def script
-      return async if async?
-      return universal if universal?
-    end
-
     def async
-      async_script = [%q(<script type="text/javascript">)]
-      async_script << "var _gaq = _gaq || [];_gaq.push(['_setAccount', #{tracking_id}]);"
+      async_script = ["<script type=\"text/javascript\">var _gaq = _gaq || [];_gaq.push(['_setAccount', '#{tracking_id}']);"]
 
       if @env[:custom_vars]
         @env[:custom_vars].each do |var|
-          async_script << "_gaq.push(['_setCustomVar', #{var[:slot]}, #{var[:name]}, #{var[:value]}"
-          async_script << ", #{var[:scope]}" if var[:scope]
-          async_script << ']);'
+          async_script << "_gaq.push(['_setCustomVar', #{var[:slot]}, #{var[:name]}, #{var[:value]}, #{var[:scope] ? "#{var[:scope]}]);" : "]);"}"
         end
       end
 
@@ -129,13 +126,13 @@ ga('send', 'pageview');
       end
 
       static_components << <<-ASYNC
-      _gaq.push(['_trackPageview']);
-      (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-      </script>
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
       ASYNC
 
       return static_components.join
