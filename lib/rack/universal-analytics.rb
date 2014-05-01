@@ -118,12 +118,12 @@ ga('send', 'pageview');
     # we don't need to rebuild this part of the script on a per-response basis
     def static_async_components
       static_components = []
-      static_components << "_gaq.push(['_setSiteSpeedSampleRate', #{@options[:site_speed_sample_rate].to_i});" if @options[:site_speed_sample_rate]
+      static_components << "_gaq.push(['_setSiteSpeedSampleRate', #{@options[:site_speed_sample_rate].to_i}]);" if @options[:site_speed_sample_rate]
 
       static_components << "_gaq.push(['_setDomainName', #{@options[:domain]}]);" if @options[:domain]
 
       @options[:adjusted_bounce_rate_timeouts].each do |timeout|
-        static_components << %Q|setTimeout("_gaq.push(['_trackEvent', #{timeout.to_s}_seconds, 'read'])",#{timeout*1000});|
+        static_components << %Q|setTimeout("_gaq.push(['_trackEvent', '#{timeout.to_s}_seconds', 'read'])",#{timeout*1000});|
       end
 
       static_components << <<-ASYNC
