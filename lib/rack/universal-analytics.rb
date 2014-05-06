@@ -16,7 +16,6 @@ module Rack
     def initialize(app, options = {})
       @app     = app
       @options = DEFAULT_OPTIONS.merge(options)
-      fail "unknown analytics personality!" unless [:none, :async, :universal].include? @options[:personality]
     end
 
     def call(env)
@@ -25,8 +24,8 @@ module Rack
     end
 
     def _call(env)
+      @status, @headers, @body = @app.call(env)
       @env = env
-      @status, @headers, @body = @app.call(@env)
       return [@status, @headers, @body] unless opted_in? && html? && requirements_met?
       response = Rack::Response.new([], @status, @headers)
 
@@ -38,16 +37,24 @@ module Rack
 
     private
 
+    def personality
+      if @options[:personality].respond_to?(:call)
+        @options[:personality].call(@env)
+      else
+        @options[:personality]
+      end
+    end
+
     def opted_in?
-      !(@options[:personality] == :none)
+      [:async, :universal].include? personality
     end
-    
+
     def universal?
-      @options[:personality] == :universal
+      personality == :universal
     end
-    
+
     def async?
-      @options[:personality] == :async
+      personality == :async
     end
 
     def property_url
@@ -60,9 +67,9 @@ module Rack
 
     def tracking_id
       if @options[:tracking_id].respond_to?(:call)
-       @options[:tracking_id].call(@env)
+        @options[:tracking_id].call(@env)
       else
-       @options[:tracking_id]
+        @options[:tracking_id]
       end
     end
 
@@ -77,8 +84,7 @@ module Rack
     end
 
     def requirements_met?
-      return (!!tracking_id && !!property_url) if universal?
-      return true if async?
+      !!tracking_id && !!property_url
     end
 
     def script
@@ -104,9 +110,18 @@ ga('send', 'pageview');
 
       if @env[:custom_vars]
         @env[:custom_vars].each do |var|
-          async_script << "_gaq.push(['_setCustomVar', #{var[:slot]}, #{var[:name]}, #{var[:value]}, #{var[:scope] ? "#{var[:scope]}]);" : "]);"}"
+          async_script << "_gaq.push(['_setCustomVar', #{var[:slot]}, '#{var[:name]}', '#{var[:value]}', #{var[:scope] || 'undefined'}]);"
         end
       end
+
+      if @env[:tracking_events]
+        @env[:tracking_events].each do |var|
+          label = var[:label] ? "'#{var[:label]}'" : 'undefined'
+          async_script << "_gaq.push(['_trackEvent', '#{var[:category]}', '#{var[:action]}', #{label}, #{var[:value] || 'undefined'}, #{var[:noninteraction] || 'undefined'}]);"
+        end
+      end
+
+      async_script << "_gaq.push(['_setDomainName', '#{property_url}']);"
 
       @static_async_components ||= static_async_components
       async_script << @static_async_components
@@ -119,10 +134,8 @@ ga('send', 'pageview');
       static_components = []
       static_components << "_gaq.push(['_setSiteSpeedSampleRate', #{@options[:site_speed_sample_rate].to_i}]);" if @options[:site_speed_sample_rate]
 
-      static_components << "_gaq.push(['_setDomainName', #{@options[:domain]}]);" if @options[:domain]
-
       @options[:adjusted_bounce_rate_timeouts].each do |timeout|
-        static_components << %Q|setTimeout("_gaq.push(['_trackEvent', '#{timeout.to_s}_seconds', 'read'])",#{timeout*1000});|
+        static_components << %Q|setTimeout("_gaq.push(['_trackEvent', '#{timeout}_seconds', 'read'])",#{timeout * 1000});|
       end
 
       static_components << <<-ASYNC
@@ -135,7 +148,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 </script>
       ASYNC
 
-      return static_components.join
+      static_components.join
     end
 
   end
