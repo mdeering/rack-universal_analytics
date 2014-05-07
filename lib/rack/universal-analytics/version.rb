@@ -7,9 +7,9 @@ module Rack
     module Version
 
       MAJOR = 0
-      MINOR = 1
-      PATCH = 1
-      BUILD = 'alpha'
+      MINOR = 2
+      PATCH = 0
+      BUILD = ''
 
       # Returns the current Symantic Version as string.
       #
