@@ -40,17 +40,17 @@ If you are not sure what's best, go with the defaults, and read here if you shou
 In your application controller, you may track an event. For example:
 
 ```ruby
-track_analytics_event("Users", "Login", "Standard")
+track_analytics_event("Newsletter", "Signup")
 ```
 
 See https://developers.google.com/analytics/devguides/collection/analyticsjs/events
 
-## Custom Push
+## Custom Variables
 
 In your application controller, you may push arbritrary data. For example:
 
 ```ruby
-push_analytics_variable("_addItem", "ID", "SKU")
+push_analytics_variable(1, "User", "John Doe")
 ```
 
 ## Dynamic Options
