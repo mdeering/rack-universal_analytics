@@ -10,14 +10,7 @@ Rack Middleware for injecting Google Analytics tracking code (either the new uni
 gem 'rack-universal-analytics'
 ```
 
-#### Sinatra
-
-```ruby
-## app.rb
-use Rack::UniversalAnalytics, :tracking_id => 'UA-xxxxxx-x'
-```
-
-#### Rails 3.X and Rails 4.X
+#### Rails
 
 ```ruby
 ## config/application.rb:
@@ -44,7 +37,7 @@ In your application controller, you may track an event. For example:
 track_analytics_event("Newsletter", "Signup")
 ```
 
-See https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+See https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiEventTracking#gat.GA_EventTracker._trackEvent
 
 ## Custom Variables
 
@@ -53,6 +46,8 @@ In your application controller, you may push arbritrary data. For example:
 ```ruby
 push_analytics_variable(1, "User", "John Doe")
 ```
+
+See https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration?csw=1#gat.GA_Tracker._setCustomVar
 
 ## Dynamic Options
 
