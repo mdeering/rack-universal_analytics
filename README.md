@@ -82,4 +82,5 @@ config.middleware.use Rack::UniversalAnalytics,
 
 ## Copyright
 Copyright (c) 2014 Matthew Barnett, Mike Deering, with portions courtesy Lee Hambley's [rack-google-analytics] (https://github.com/kangguru/rack-google-analytics)
+
 See LICENSE for details.
