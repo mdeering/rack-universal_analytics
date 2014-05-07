@@ -92,22 +92,20 @@ describe Rack::UniversalAnalytics do
 
       end
 
-     context 'with the correct environment variable set' do
-
-        context 'with an html request' do
-
-         let(:env) do
-            {
+    context 'with the correct environment variable set' do
+      context 'with an html request' do
+        let(:env) do
+          {
               'Content-Type'                 => 'text/html',
               'google_analytics.tracking_id' => scoped_tracking_id
-           }
-         end
+          }
+        end
 
-         let(:scoped_tracking_id) { 'UA-987654321-7' }
+        let(:scoped_tracking_id) { 'UA-987654321-7' }
 
-         it 'should augment the response body' do
-            expect(last_response.body).to match(scoped_tracking_id)
-         end
+        it 'should augment the response body' do
+          expect(last_response.body).to match(scoped_tracking_id)
+        end
 
         end
       end
@@ -130,6 +128,13 @@ describe Rack::UniversalAnalytics do
 
       it 'should not inject the universal analytics code' do
         expect(last_response.body).not_to match('i,s,o,g,r,a,m')
+      end
+      
+      it 'should use the async script with remarketting support' do
+        expect(last_response.body).to match('stats.g.doubleclick.net/dc.js')
+      end
+      
+      it 'should support custom vars and event tracking' do
       end
     end
   end

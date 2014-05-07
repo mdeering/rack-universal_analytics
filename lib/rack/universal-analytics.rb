@@ -13,6 +13,13 @@ module Rack
       adjusted_bounce_rate_timeouts: []
     }.freeze
 
+    # @param app the rack application chain we are mounted in front of
+    # @param [Hash] options UniversalAnalytics options
+    # @option options [String, lambda] :tracking_id The Google Analytics tracking ID for your account. If not set, this middleware is a no-op
+    # @option options [String, lambda] :property_url Domain for GATC cookies. If not set and personality is set to :universal, this middleware is a no-op
+    # @option options [Symbol, lambda] :personality analytics personality to use. One of :async, :universal, :none (default). When not set to :universal or :async, this rack middleware is a no-op
+    # @option options [Array] :adjusted_bounce_rate_timeouts  An array of times in seconds that the tracker will use to set timeouts for adjusted bounce rate tracking. See http://analytics.blogspot.ca/2012/07/tracking-adjusted-bounce-rate-in-google.html for details. ex: [15, 30, 45, 60]
+    # @option options [Integer] :site_speed_sample_rate Defines a new sample set size for Site Speed data collection, see https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration?hl=de#_gat.GA_Tracker_._setSiteSpeedSampleRate
     def initialize(app, options = {})
       @app     = app
       @options = DEFAULT_OPTIONS.merge(options)
@@ -84,7 +91,10 @@ module Rack
     end
 
     def requirements_met?
-      !!tracking_id && !!property_url
+      case personality
+      when :universal then !!tracking_id && !!property_url
+      when :async then !!tracking_id
+      end
     end
 
     def script
@@ -107,32 +117,48 @@ ga('send', 'pageview');
 
     def async
       async_script = ["<script type=\"text/javascript\">var _gaq = _gaq || [];_gaq.push(['_setAccount', '#{tracking_id}']);"]
-
-      if @env[:custom_vars]
-        @env[:custom_vars].each do |var|
-          async_script << "_gaq.push(['_setCustomVar', #{var[:slot]}, '#{var[:name]}', '#{var[:value]}', #{var[:scope] || 'undefined'}]);"
-        end
-      end
-
-      if @env[:tracking_events]
-        @env[:tracking_events].each do |var|
-          label = var[:label] ? "'#{var[:label]}'" : 'undefined'
-          async_script << "_gaq.push(['_trackEvent', '#{var[:category]}', '#{var[:action]}', #{label}, #{var[:value] || 'undefined'}, #{var[:noninteraction] || 'undefined'}]);"
-        end
-      end
-
-      async_script << "_gaq.push(['_setDomainName', '#{property_url}']);"
+      async_script << custom_vars
+      async_script << tracking_events
+      async_script << "_gaq.push(['_setDomainName', '#{property_url}']);" if !!property_url
 
       @static_async_components ||= static_async_components
       async_script << @static_async_components
       async_script.join
+    end
+    
+    def custom_vars
+      vars = ""
+      if @env[:custom_vars]
+        @env[:custom_vars].each do |var|
+          vars << "_gaq.push(['_setCustomVar', #{var[:slot]}, '#{var[:name]}', '#{var[:value]}', #{var[:scope] || 'undefined'}]);"
+        end
+      end
+      vars
+    end
+    
+    def tracking_events
+      events = ""
+      if @env[:tracking_events]
+        @env[:tracking_events].each do |event|
+          category = event[:category] || 'undefined'
+          action = event[:action] || 'undefined'
+          label = event[:label] ? "'#{var[:label]}'" : 'undefined'
+          value = event[:value] || 'undefined'
+          noninteraction = event[:noninteraction] || 'undefined'
+          
+          args = [category, action, label, value, noninteraction].join(",")
+          
+          events << "_gaq.push(['_trackEvent', '#{args}]);"
+        end
+      end
+      events
     end
 
     # as all of these are based on initialize-time options
     # we don't need to rebuild this part of the script on a per-response basis
     def static_async_components
       static_components = []
-      static_components << "_gaq.push(['_setSiteSpeedSampleRate', #{@options[:site_speed_sample_rate].to_i}]);" if @options[:site_speed_sample_rate]
+      static_components << "_gaq.push(['_setSiteSpeedSampleRate', #{@options[:site_speed_sample_rate].to_i}]);" if !!@options[:site_speed_sample_rate]
 
       @options[:adjusted_bounce_rate_timeouts].each do |timeout|
         static_components << %Q|setTimeout("_gaq.push(['_trackEvent', '#{timeout}_seconds', 'read'])",#{timeout * 1000});|
@@ -153,3 +179,5 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 
   end
 end
+
+
