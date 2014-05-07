@@ -33,7 +33,8 @@ config.middleware.use Rack::UniversalAnalytics, :tracking_id => 'UA-xxxxxx-x'
 * `:site_speed_sample_rate` (Integer) — Defines a new sample set size for Site Speed data collection, see developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiBasicConfiguration?hl=de#gat.GA_Tracker._setSiteSpeedSampleRate
 
 
-If you are not sure what's best, go with the defaults, and read here if you should opt-out.
+Without a tracking_id and personality set (and without a property_url set when personality is set to `:universal`) this middleware acts as a no-op and passes
+content through unchanged. This middleware should always be harmless when mounted in from of apps which fail to explicitly opt-in by setting these variables up correctly.
 
 ## Event Tracking
 
@@ -73,11 +74,6 @@ config.middleware.use Rack::UniversalAnalytics,
   }
 
 ```
-
-## Thread Safety
-
-This middleware *should* be thread safe. Although my experience in such areas is limited, having taken the advice of those with more experience; I defer the call to a shallow copy of the environment, if this is of consequence to you please review the implementation.
-
 
 ## Contributing
 
