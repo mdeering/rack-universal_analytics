@@ -6,3 +6,6 @@ EmptyLinesAroundBody:
 
 LineLength:
   Max: 100
+
+DoubleNegation:
+  Enabled: false

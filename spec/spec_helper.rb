@@ -1,7 +1,7 @@
 # Encoding: utf-8
 
 require 'rack/test'
-require 'rack/universal_analytics'
+require 'rack/universal-analytics'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

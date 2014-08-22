@@ -1,1 +1,3 @@
-require "bundler/gem_tasks"
+# Encoding: utf-8
+
+require 'bundler/gem_tasks'

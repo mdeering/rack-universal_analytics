@@ -1,19 +1,19 @@
 # Encoding: utf-8
 
 module Rack
-  module UniversalAnalytics
+  class UniversalAnalytics
 
     # Symantic Versioning http://semver.org
     module Version
 
       MAJOR = 0
-      MINOR = 0
-      PATCH = 1
-      BUILD = 'alpha'
+      MINOR = 2
+      PATCH = 0
+      BUILD = 0
 
       # Returns the current Symantic Version as string.
       #
-      # @return [String] current semantic_version of the rack-universal_analytics gem.
+      # @return [String] current semantic_version of the rack-universal-analytics gem.
       #
       # @example
       #   puts Rack::UniversalAnalytics::Version # => '0.0.1'
